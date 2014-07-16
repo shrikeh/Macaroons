@@ -11,15 +11,5 @@ interface Packet
 
     public function getHeaderLength();
 
-    public function getValueStart();
-
-    public function getValueLength();
-
-    public function getValueEnd();
-
-    public function getFieldStart();
-
-    public function getFieldLength();
-
-    public function getFieldEnd();
+    public function parse($data);
 }

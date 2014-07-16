@@ -2,8 +2,8 @@
 
 namespace spec\Shrikeh\Macaroons\Packet;
 
-use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
+use \PhpSpec\ObjectBehavior;
+use \Prophecy\Argument;
 
 class PacketSpec extends ObjectBehavior
 {
@@ -28,25 +28,5 @@ class PacketSpec extends ObjectBehavior
     function it_returns_the_header_length()
     {
         $this->getHeaderLength()->shouldReturn(32);
-    }
-
-    function it_returns_the_data_payload_start()
-    {
-        $this->getValueStart()->shouldReturn(36);
-    }
-
-    function it_returns_the_data_payload_end()
-    {
-        $this->getValueEnd()->shouldReturn(68);
-    }
-
-    function it_returns_the_field_start()
-    {
-        $this->getFieldStart()->shouldReturn(8);
-    }
-
-    function it_returns_the_field_end()
-    {
-        $this->getFieldEnd()->shouldReturn(35);
     }
 }

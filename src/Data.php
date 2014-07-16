@@ -3,9 +3,7 @@ namespace Shrikeh\Macaroons;
 
 use \Shrikeh\Macaroons\Packet;
 
-interface Data
+interface Data extends \ArrayAccess
 {
-    public function getValue(Packet $packet);
 
-    public function getField(Packet $packet);
 }

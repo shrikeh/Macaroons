@@ -3,6 +3,7 @@
 namespace Shrikeh\Macaroons\Packet;
 
 use \Shrikeh\Macaroons\Packet as PacketInterface;
+use \Shrikeh\Macaroons\Data\Slice;
 
 class Packet implements PacketInterface
 {
@@ -34,32 +35,44 @@ class Packet implements PacketInterface
         return $this->totalLength;
     }
 
-    public function getValueStart()
+    public function parse($data)
+    {
+        $header = substr($data, $this->getStart(), self::HEADER_LENGTH);
+        $field  = substr($data, $this->getFieldStart(), $this->getFieldLength());
+        $value  = substr($data, $this->getValueStart(), $this->getValueLength());
+        return array(
+            'header' => $header,
+            'field' => $field,
+            'value' => $value,
+        );
+    }
+
+    private function getValueStart()
     {
         return $this->getStart() + $this->getHeaderLength();
     }
 
-    public function getValueLength()
+    private function getValueLength()
     {
         return $this->getValueEnd() - $this->getValueStart();
     }
 
-    public function getValueEnd()
+    private function getValueEnd()
     {
         return $this->getStart() + $this->getTotalLength();
     }
 
-    public function getFieldStart()
+    private function getFieldStart()
     {
         return $this->getStart() + self::HEADER_LENGTH;
     }
 
-    public function getFieldLength()
+    private function getFieldLength()
     {
         return $this->getFieldEnd() - $this->getFieldStart();
     }
 
-    public function getFieldEnd()
+    private function getFieldEnd()
     {
         return $this->getStart() + $this->getHeaderLength() - 1;
     }
