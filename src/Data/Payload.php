@@ -3,6 +3,7 @@
 namespace Shrikeh\Macaroons\Data;
 
 use \Shrikeh\Macaroons\Data;
+use \Shrikeh\Macaroons\Data\ChunkFactory;
 use \Shrikeh\Macaroons\Packet;
 use \Shrikeh\Macaroons\Data\Chunk;
 
