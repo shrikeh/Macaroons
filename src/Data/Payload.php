@@ -21,7 +21,7 @@ class Payload implements Data
 
     public function __isset(Packet $packet)
     {
-
+      return $this->packetExists($packet);
     }
 
     public function getChunkFor(Packet $packet)

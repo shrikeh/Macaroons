@@ -9,9 +9,9 @@ class PacketSpec extends ObjectBehavior
 {
     public function let()
     {
-        $start = 4;
+        $start        = 4;
         $headerLength = 32;
-        $totalLength = 64;
+        $totalLength  = 64;
         $this->beConstructedWith($start, $headerLength, $totalLength);
     }
 

@@ -42,8 +42,8 @@ class Packet implements PacketInterface
         $value  = substr($data, $this->getValueStart(), $this->getValueLength());
         return array(
             'header' => $header,
-            'field' => $field,
-            'value' => $value,
+            'field'  => $field,
+            'value'  => $value,
         );
     }
 
