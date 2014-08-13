@@ -7,33 +7,19 @@ use \Shrikeh\Macaroons\Data\Chunk\ChunkException;
 
 class DataChunk implements Chunk
 {
-    private $header;
-
     private $field;
 
     private $value;
 
-    public function __construct($header, $field, $value)
+    public function __construct($field, $value)
     {
-        $this->header   = $header;
         $this->field    = $field;
         $this->value    = $value;
-
-        $chunkLength = strlen($this->render()) -1;
-        $headerLength = hexdec($this->header);
-        if ($headerLength !== $chunkLength) {
-            throw new ChunkException("Header does not match field/value length: '$headerLength:$chunkLength'");
-        }
     }
 
     public function render()
     {
-        $return = array(
-            (string) $this->getHeader(),
-            (string) $this->getField(),
-            (string) $this->getValue()
-        );
-        return implode(' ', $return);
+      return (string) $this->getField() . ' ' . $this->getValue();
     }
 
     public function __toString()
@@ -50,10 +36,4 @@ class DataChunk implements Chunk
     {
         return $this->field;
     }
-
-    public function getHeader()
-    {
-        return $this->header;
-    }
-
 }

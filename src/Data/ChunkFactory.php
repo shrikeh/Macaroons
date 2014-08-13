@@ -10,7 +10,6 @@ class ChunkFactory
     {
         $chunkData = $packet->parse($payload);
         $chunk =  new DataChunk(
-            $chunkData['header'],
             $chunkData['field'],
             $chunkData['value']
         );

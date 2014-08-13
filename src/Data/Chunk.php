@@ -9,6 +9,4 @@ interface Chunk
     public function getValue();
 
     public function getField();
-
-    public function getHeader();
 }

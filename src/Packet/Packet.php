@@ -9,15 +9,19 @@ class Packet implements PacketInterface
 {
     private $start;
 
+    private $fieldLength;
+
     private $totalLength;
 
-    const HEADER_LENGTH = 4;
+    private $bufferLength;
 
-    public function __construct($start, $headerLength, $totalLength)
+
+    public function __construct($start, $fieldLength, $valueLength, $bufferLength)
     {
-        $this->start = $start;
-        $this->headerLength = $headerLength;
-        $this->totalLength = $totalLength;
+        $this->start        = $start;
+        $this->fieldLength  = $fieldLength;
+        $this->valueLength  = $valueLength;
+        $this->bufferLength = $bufferLength;
     }
 
     public function getStart()
@@ -25,19 +29,20 @@ class Packet implements PacketInterface
         return $this->start;
     }
 
+
     public function getHeaderLength()
     {
-        return $this->headerLength;
+        return $this->getBufferLength() + $this->getFieldLength() + 1;
     }
 
     public function getTotalLength()
     {
-        return $this->totalLength;
+        return $this->getHeaderLength() + $this->getValueLength() + 1;
     }
 
     public function parse($data)
     {
-        $header = substr($data, $this->getStart(), self::HEADER_LENGTH);
+        $header = substr($data, $this->getStart(), $this->getBufferLength());
         $field  = substr($data, $this->getFieldStart(), $this->getFieldLength());
         $value  = substr($data, $this->getValueStart(), $this->getValueLength());
         return array(
@@ -46,6 +51,48 @@ class Packet implements PacketInterface
             'value'  => $value,
         );
     }
+
+    private function getFieldLength()
+    {
+        return $this->fieldLength;
+    }
+
+    private function getValueLength()
+    {
+        return $this->valueLength;
+    }
+
+    private function getBufferLength()
+    {
+        return $this->bufferLength;
+    }
+
+    private function getFieldStart()
+    {
+        return $this->getStart() + $this->getBufferLength();
+    }
+
+    private function getFieldEnd()
+    {
+        return $this->getFieldStart() + $this->getFieldLength();
+    }
+
+    private function getValueStart()
+    {
+        return $this->getFieldEnd() + 1;
+    }
+
+    private function getValueEnd()
+    {
+        return $this->getValueStart() + $this->getValueLength();
+    }
+
+
+
+
+
+
+/*
 
     private function getValueStart()
     {
@@ -64,16 +111,17 @@ class Packet implements PacketInterface
 
     private function getFieldStart()
     {
-        return $this->getStart() + self::HEADER_LENGTH;
+        return $this->getStart() + $this->getBufferLength();
     }
 
     private function getFieldLength()
     {
-        return $this->getFieldEnd() - $this->getFieldStart();
+        return $this->fieldLength;
     }
 
     private function getFieldEnd()
     {
         return $this->getStart() + $this->getHeaderLength() - 1;
     }
+*/
 }

@@ -19,7 +19,6 @@ class ChunkFactorySpec extends ObjectBehavior
             'value'     => 'more and more data'
         );
         $chunk = new DataChunk(
-            $array['header'],
             $array['field'],
             $array['value']
         );
