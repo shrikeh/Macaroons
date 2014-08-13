@@ -4,7 +4,7 @@ namespace Shrikeh\Macaroons;
 
 interface Packet
 {
-    
+
     public function getStart();
 
     public function getTotalLength();
@@ -12,4 +12,6 @@ interface Packet
     public function getHeaderLength();
 
     public function parse($data);
+
+    public function __toString();
 }

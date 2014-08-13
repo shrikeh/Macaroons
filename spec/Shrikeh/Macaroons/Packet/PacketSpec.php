@@ -24,12 +24,12 @@ class PacketSpec extends ObjectBehavior
 
     function it_returns_the_total_length()
     {
-        $this->getTotalLength()->shouldReturn(76);
+        $this->getTotalLength()->shouldReturn(75);
     }
 
     function it_returns_the_header_length()
     {
-        $this->getHeaderLength()->shouldReturn(15);
+        $this->getHeaderLength()->shouldReturn(14);
     }
 
     function it_returns_a_hex_string_if_tostringed()
@@ -40,7 +40,10 @@ class PacketSpec extends ObjectBehavior
 
     function it_throws_an_OutOfBoundsException_if_larger_than_the_buffer()
     {
-        $this->shouldThrow('\OutOfBoundsException')
+        $this->shouldThrow(
+            new \OutOfBoundsException(
+              'Packet size 65544 exceeds the maxmimum buffer size of 65535'
+            ))
             ->during('__construct', [4, 10, 65530, 4]);
     }
 

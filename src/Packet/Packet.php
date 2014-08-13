@@ -40,7 +40,7 @@ class Packet implements PacketInterface
     public function toHex()
     {
         return str_pad(
-            dechex($this->getTotalLength() - 1),
+            dechex($this->getTotalLength()),
             $this->getBufferLength(),
             '0',
             STR_PAD_LEFT
@@ -55,7 +55,7 @@ class Packet implements PacketInterface
 
     public function getHeaderLength()
     {
-        return $this->getBufferLength() + 1 + $this->getFieldLength();
+        return $this->getBufferLength() + $this->getFieldLength();
     }
 
     public function getTotalLength()
