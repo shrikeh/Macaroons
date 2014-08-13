@@ -22,6 +22,29 @@ class Packet implements PacketInterface
         $this->fieldLength  = $fieldLength;
         $this->valueLength  = $valueLength;
         $this->bufferLength = $bufferLength;
+
+        $packetSize = $this->getTotalLength() - 1;
+        $bufferMax = pow(16, $bufferLength) - 1;
+        if ($packetSize > $bufferMax) {
+            throw new \OutOfBoundsException(
+                "Packet size $packetSize exceeds the maxmimum buffer size of $bufferMax"
+            );
+        }
+    }
+
+    public function __toString()
+    {
+        return (string) $this->toHex();
+    }
+
+    public function toHex()
+    {
+        return str_pad(
+            dechex($this->getTotalLength() - 1),
+            $this->getBufferLength(),
+            '0',
+            STR_PAD_LEFT
+        );
     }
 
     public function getStart()
@@ -32,12 +55,12 @@ class Packet implements PacketInterface
 
     public function getHeaderLength()
     {
-        return $this->getBufferLength() + $this->getFieldLength() + 1;
+        return $this->getBufferLength() + 1 + $this->getFieldLength();
     }
 
     public function getTotalLength()
     {
-        return $this->getHeaderLength() + $this->getValueLength() + 1;
+        return $this->getHeaderLength() + 1 + $this->getValueLength();
     }
 
     public function parse($data)
@@ -86,42 +109,4 @@ class Packet implements PacketInterface
     {
         return $this->getValueStart() + $this->getValueLength();
     }
-
-
-
-
-
-
-/*
-
-    private function getValueStart()
-    {
-        return $this->getStart() + $this->getHeaderLength();
-    }
-
-    private function getValueLength()
-    {
-        return $this->getValueEnd() - $this->getValueStart();
-    }
-
-    private function getValueEnd()
-    {
-        return $this->getStart() + $this->getTotalLength();
-    }
-
-    private function getFieldStart()
-    {
-        return $this->getStart() + $this->getBufferLength();
-    }
-
-    private function getFieldLength()
-    {
-        return $this->fieldLength;
-    }
-
-    private function getFieldEnd()
-    {
-        return $this->getStart() + $this->getHeaderLength() - 1;
-    }
-*/
 }

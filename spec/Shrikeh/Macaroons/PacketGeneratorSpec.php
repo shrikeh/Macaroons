@@ -27,9 +27,10 @@ class PacketGeneratorSpec extends ObjectBehavior
 
     function it_generates_a_packet_with_correct_offset(Chunk $chunk)
     {
+        $this->beConstructedWith(8);
         $chunk->getField()->willReturn('otherfield');
         $chunk->getValue()->willReturn('more and more data');
-        $packet = new Packet(19, 10, 18, 4);
+        $packet = new Packet(19, 10, 18, 8);
         $this->fromChunk($chunk, 19)->shouldBeLike($packet);
     }
 }
